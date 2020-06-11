@@ -18,7 +18,7 @@ class MSSQL:
     def __GetConnect(self):
         if not self.db:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset="GB18030")
+        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset="UTF-8")
         cur = self.conn.cursor()
         if not cur:
             raise (NameError, "连接数据库失败")

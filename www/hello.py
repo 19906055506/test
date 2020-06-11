@@ -5,8 +5,8 @@ import param as param
 # from gevent.queue import Queue
 from multiprocessing import Queue
 
-client = pymongo.MongoClient(host=param.dbip, port=param.dbport)
-db = client[param.dbName]
+client = pymongo.MongoClient(host=param.mgdbip, port=param.mgdbport)
+db = client[param.mgdbName]
 
 # baseUrl = 'http://httpbin.org/get'
 # baseUrl = 'https://myip.ipip.net/'

@@ -5,8 +5,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers import SchedulerNotRunningError, SchedulerAlreadyRunningError
 from flask import Flask
 
-client = pymongo.MongoClient(host=param.dbip, port=param.dbport)
-db = client[param.dbName]
+client = pymongo.MongoClient(host=param.mgdbip, port=param.mgdbport)
+db = client[param.mgdbName]
 
 # baseUrl = 'http://httpbin.org/get'
 # baseUrl = 'https://myip.ipip.net/'

@@ -76,8 +76,8 @@ def testing(url, auth_port):
 
 
 def updateProxy():
-    client = pymongo.MongoClient(host=param.dbip, port=param.dbport)
-    db = client[param.dbName]
+    client = pymongo.MongoClient(host=param.mgdbip, port=param.mgdbport)
+    db = client[param.mgdbName]
     tbproxy = db[param.tbproxy]
 
     url_proxyfy = requests.get(get_open_url(), timeout=5)
@@ -94,8 +94,8 @@ def updateProxy():
 
 
 def getProxy():
-    client = pymongo.MongoClient(host=param.dbip, port=param.dbport)
-    db = client[param.dbName]
+    client = pymongo.MongoClient(host=param.mgdbip, port=param.mgdbport)
+    db = client[param.mgdbName]
     tbproxy = db[param.tbproxy]
     r = tbproxy.find_one({}, {'domain': 1, 'port': 1, 'timestamp': 1, 'left_ip': 1})
     if int(time.time() - r['timestamp']) >= 3 * 60:
