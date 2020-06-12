@@ -36,6 +36,7 @@ def domain():
     ls = {}
     name = ''
     tig = ''
+    num = 0
 
     pattern1 = re.compile('DBCC SHOWCONTIG 正在扫描')
     pattern2 = re.compile('- 平均页密度')
@@ -49,10 +50,10 @@ def domain():
         for i in r:
             n1 = re.match(pattern1, i)
             if n1:
-                s = ''
-                name = ''
-                tig = ''
+                s = name = tig = ''
+                num = 0
             s += i
+            num += 1
 
             a = re.match(patternName, i)
             if a:
@@ -64,9 +65,11 @@ def domain():
 
             n2 = re.match(pattern2, i)
             if n2:
-                if tig <= 50:
+                if tig >= 0:
                     print([name, tig], '\n', s)
-                    # f.write('{}, {}'.format(name, tig))
-                    f.write(str([name, tig]))
+                    # f.write('{}, {}, {}'.format(name, tig, num))
+                    f.write('insert into temp_sjl(fnumber) values(\'{name}\');'.format(name=name))
                     f.write('\n')
 
+
+domain()
