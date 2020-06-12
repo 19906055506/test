@@ -34,7 +34,7 @@ class MSSQL:
         except pymssql.OperationalError as e:
             log.warning('没有返回信息:{sql}'.format(sql=sql))
         # 查询完毕后必须关闭连接
-        # self.conn.commit()
+        self.conn.commit()
         self.conn.close()
         return resList
 
