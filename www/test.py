@@ -72,4 +72,4 @@ def domain():
                     f.write('\n')
 
 
-# domain()
+domain()
