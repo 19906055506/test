@@ -1,7 +1,8 @@
 from selenium.webdriver.chrome.options import Options
 import www.proxyfy as proxyfy
-import requests
-import random
+import requests, random, time
+import param
+from pynput.mouse import Controller, Button
 
 
 def requestPy(url, headers={}, params={}, timeout=5):
@@ -49,3 +50,23 @@ def getHeadLess():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     return chrome_options
+
+
+def clearLog():
+    with open('../all.log', 'w', encoding='utf-8') as f:
+        f.write('')
+
+
+def clickTwice():
+    mouse = Controller()
+    mouse.click(Button.left)
+    time.sleep(0.15)
+    mouse.click(Button.left)
+
+
+def token_baidu():
+    url = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={}&client_secret={}'.format(
+        param.baidu_ak, param.baidu_sk)
+    response = requests.get(url)
+    if response:
+        print(response.json())

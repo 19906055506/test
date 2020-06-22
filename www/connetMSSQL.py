@@ -18,7 +18,8 @@ class MSSQL:
     def __GetConnect(self):
         if not self.db:
             raise (NameError, "没有设置数据库信息")
-        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db, charset="UTF-8")
+        self.conn = pymssql.connect(host=self.host, user=self.user, password=self.pwd, database=self.db,
+                                    charset="UTF-8")
         cur = self.conn.cursor()
         if not cur:
             raise (NameError, "连接数据库失败")
@@ -32,15 +33,32 @@ class MSSQL:
             cur.execute(sql)
             resList = cur.fetchall()
         except pymssql.OperationalError as e:
-            log.warning('没有返回信息:{sql}'.format(sql=sql))
-        # 查询完毕后必须关闭连接
+            log.warning('没有返回信息: [{sql}] {e}'.format(sql=sql[:100], e=e))
+
         self.conn.commit()
+        # 查询完毕后必须关闭连接
         self.conn.close()
         return resList
+
+    def ExecUpdate(self, sql):
+        cur = self.__GetConnect()
+        try:
+            cur.execute(sql)
+            self.conn.commit()
+            self.conn.close()
+            return True
+        except pymssql.OperationalError as e:
+            pass
+        except Exception as e:
+            log.error('{} {} [err: {}]'.format(Exception, e, sql[:100]))
+
+        self.conn.rollback()
+        return False
 
     def ExecNonQuery(self, sql):
         cur = self.__GetConnect()
         cur.execute(sql)
+        r = cur.fetchone()
         self.conn.commit()
         self.conn.close()
 
