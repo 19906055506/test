@@ -4,6 +4,7 @@ import time, base64, requests, json, chardet, io
 from PIL import ImageGrab, Image
 import www.util as util
 import param as param
+from www.log import log
 
 
 def shibie(image):
@@ -115,16 +116,14 @@ def domain():
     mouse.click(Button.left)
 
     while True:
-        a = time.time()
+        t = time.time()
         time.sleep(1)
         im = ImageGrab.grab((314, 80, 395, 104))  # 客户档案页签
         o = io.BytesIO()
         im.save(o, format='PNG')
         if customerBegin == o.getvalue():
             customer()
-            print(time.time() - a)
-
-    print('end')
+            log.info('{:.2f}'.format(time.time() - t))
 
 
 domain()
