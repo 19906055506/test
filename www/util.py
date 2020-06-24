@@ -69,4 +69,4 @@ def token_baidu():
         param.baidu_ak, param.baidu_sk)
     response = requests.get(url)
     if response:
-        print(response.json())
+        return response.json()
