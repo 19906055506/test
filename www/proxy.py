@@ -44,6 +44,3 @@ def getProxy():
         updateProxy()
         return getProxy()
     return tbproxy.find_one()
-
-
-print(getProxy())
