@@ -1,6 +1,6 @@
-import requests, json, pymongo, datetime, time
-
-import param
+import requests, json, pymongo, datetime, time, param
+import www.util as util
+from www.log import log
 
 mgclient = pymongo.MongoClient(host=param.mgdbip, port=param.mgdbport)
 mgdb = mgclient[param.mgdbName]
@@ -37,10 +37,31 @@ def updateProxy():
 
 
 def getProxy():
-    p = tbproxy.find_one()
-    if time.time() >= int(p['timestamp']):
-        print('更新proxy_ip')
-        tbproxy.delete_many({})
+    p = tbproxy.find()
+    try:
+        if time.time() >= int(p[0]['timestamp']):
+            log.info('更新proxy_ip')
+            tbproxy.delete_many({})
+            updateProxy()
+            return getProxy()
+    except IndexError as e:
+        log.info('更新proxy_ip')
         updateProxy()
         return getProxy()
-    return tbproxy.find_one()
+
+    s = []
+    for i in p:
+        s.append({
+            'http': "http://" + i['domain'] + ':' + str(i['port']),
+            'https': 'https://' + i['domain'] + ':' + str(i['port'])
+        })
+    return s[0]
+
+
+def test():
+    url = 'https://myip.ipip.net/'
+    headers = {
+        'User-Agent': util.getUseAgent()
+    }
+    response = requests.get(url, headers=headers, proxies=getProxy())
+    print(response.text)

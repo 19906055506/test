@@ -35,7 +35,7 @@ util.clearLog()
 
 
 def domain():
-    with open('../showcontig.txt', 'r', encoding='utf-8') as f:
+    with open('../showcontig0628.txt', 'r', encoding='utf-8') as f:
         r = f.readlines()
     ls = {}
     name = ''
@@ -66,7 +66,7 @@ def domain():
 
             p = re.match(patternPage, i)
             if p:
-                page = p.group(1)
+                page = int(p.group(1))
 
             b = re.match(patternTig, i)
             if b:
@@ -76,8 +76,9 @@ def domain():
             if end:
                 if tig >= 0:
                     print([name, tig, page])
-                    f.write('{} {} {}'.format(name, tig, page))
-                    # f.write('insert into temp_sjl(fnumber, score) values(\'{name}\', {tig});'.format(name=name, tig=tig))
+                    # f.write('{} {} {}'.format(name, tig, page))
+                    f.write('insert into temp_sjl(fnumber, score, cost1) values(\'{name}\', {tig}, {page});'.format(
+                        name=name, tig=tig, page=page))
                     f.write('\n')
 
 
