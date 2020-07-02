@@ -32,10 +32,10 @@ class MSSQL:
         try:
             cur.execute(sql)
             resList = cur.fetchall()
+            self.conn.commit()
         except pymssql.OperationalError as e:
             log.warning('没有返回信息: [{sql}] {e}'.format(sql=sql[:100], e=e))
 
-        self.conn.commit()
         # 查询完毕后必须关闭连接
         self.conn.close()
         return resList
