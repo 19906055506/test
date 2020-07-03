@@ -1,6 +1,7 @@
 from selenium.webdriver.chrome.options import Options
+from flask import Response, jsonify
 import www.proxyfy as proxyfy
-import requests, random, time
+import requests, random, time, os
 import param
 from pynput.mouse import Controller, Button
 
@@ -71,3 +72,17 @@ def token_baidu():
     response = requests.get(url)
     if response:
         return response.json()
+
+
+def getRootPath():
+    rootPath = os.path.dirname(os.path.abspath(__file__))
+    rootPath = os.path.dirname(rootPath)
+    return rootPath
+
+
+class JsonResponse(Response):
+    @classmethod
+    def force_type(cls, response, envirson=None):
+        if isinstance(response, dict):  # 判断返回类型是否是字典(JSON)
+            response = jsonify(response)  # 转换
+        return super().force_type(response, envirson)
