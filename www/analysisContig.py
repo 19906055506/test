@@ -35,7 +35,7 @@ util.clearLog()
 
 
 def domain():
-    with open('../showcontig0628.txt', 'r', encoding='utf-8') as f:
+    with open('../showcontig0722.txt', 'r', encoding='utf-8') as f:
         r = f.readlines()
     ls = {}
     name = ''

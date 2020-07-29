@@ -1,7 +1,9 @@
+import functools
+
 from selenium.webdriver.chrome.options import Options
 from flask import Response, jsonify
 import www.proxyfy as proxyfy
-import requests, random, time, os
+import requests, random, time, os, sys
 import param
 from pynput.mouse import Controller, Button
 
@@ -86,3 +88,15 @@ class JsonResponse(Response):
         if isinstance(response, dict):  # 判断返回类型是否是字典(JSON)
             response = jsonify(response)  # 转换
         return super().force_type(response, envirson)
+
+
+def log_excute_time(func):
+    # decorator 用于计算函数执行时间
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        res = func(*args, **kwargs)
+        print('{} 执行结束 {:.8f} s'.format(func.__name__, time.time() - start))
+        return res
+
+    return wrapper
