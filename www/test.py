@@ -49,4 +49,4 @@ def test():
     time.sleep(a)
 
 
-test()
+print(type(format(2, '.2f')))
